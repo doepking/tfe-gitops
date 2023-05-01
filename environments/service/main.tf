@@ -59,7 +59,8 @@ resource "google_storage_bucket" "tfstate" {
 
 resource "google_cloudbuild_trigger" "tfe_gitops_trigger" {
   project      = var.project
-  description  = "push-to-any-branch-cicd-trigger"
+  name  = "push-to-any-branch-cicd-trigger"
+  description  = "Trigger to run CI/CD pipeline on any branch push"
   github {
     owner = var.github_repo_owner
     name  = var.github_repo_name
