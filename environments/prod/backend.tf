@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "genial-runway-383808-tfstate"
+    bucket = "tfe-gitops-state"
     prefix = "env/prod"
   }
 }
