@@ -1,5 +1,5 @@
 locals {
-  env = "prod"
+  env = var.environment
 }
 
 resource "google_project_service" "required_apis" {

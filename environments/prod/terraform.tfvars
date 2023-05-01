@@ -1,5 +1,4 @@
 environment     = "prod"
-bucket_name     = "genial-runway-383808-tfstate"
 project         = "tfe-gitops-prod"
 region          = "europe-west1"
 zone            = "europe-west1-b"

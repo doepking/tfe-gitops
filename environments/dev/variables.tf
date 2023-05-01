@@ -1,3 +1,8 @@
+variable "environment" {
+  description = "The environment to deploy to"
+  type        = string
+}
+
 variable "project" {
   description = "The GCP project ID"
   type        = string
