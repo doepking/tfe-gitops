@@ -6,6 +6,10 @@ variable "region" {
   description = "The region for resources"
 }
 
+variable "location" {
+  description = "The location for resources"
+}
+
 variable "bucket_name" {
   description = "The name of the GCS bucket"
 }

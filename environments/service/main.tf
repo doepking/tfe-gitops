@@ -1,5 +1,6 @@
 locals {
   env = "service"
+
   dev_terraform_tfvars = file("../dev/terraform.tfvars")
   dev_project_id = regex("project\\s*=\\s*\"([^\"]+)\"", local.dev_terraform_tfvars)[0]
 
@@ -11,10 +12,13 @@ resource "google_project_service" "required_apis" {
   project = var.project
   for_each = {
     "storage-api.googleapis.com"              = "Cloud Storage API"
+    "sqladmin.googleapis.com"                 = "Cloud SQL Admin API"
+    "compute.googleapis.com"                  = "Compute Engine API"
     "cloudresourcemanager.googleapis.com"     = "Cloud Resource Manager API"
     "servicenetworking.googleapis.com"        = "Service Networking API"
     "cloudbuild.googleapis.com"               = "Cloud Build API"
     "iam.googleapis.com"                      = "Identity and Access Management (IAM) API"
+    "secretmanager.googleapis.com"            = "Secret Manager API"
   }
   service = each.key
   disable_on_destroy = false
@@ -45,7 +49,7 @@ resource "google_project_iam_member" "cloudbuild_owner_service" {
 resource "google_storage_bucket" "tfstate" {
   project = var.project
   name          = var.bucket_name
-  location      = "EU"
+  location      = var.location
   force_destroy = true
 }
 

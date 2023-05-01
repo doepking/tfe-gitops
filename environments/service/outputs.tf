@@ -13,6 +13,11 @@ output "prod_project_id" {
   description = "The project ID for the 'prod' environment."
 }
 
+output "service_project_id" {
+  value       = var.project
+  description = "The project ID for the 'service' environment."
+}
+
 output "cloudbuild_trigger" {
   value = {
     id          = google_cloudbuild_trigger.tfe_gitops_trigger.id
