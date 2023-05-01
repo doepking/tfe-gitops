@@ -44,9 +44,9 @@ resource "google_project_iam_member" "cloudbuild_owner_prod" {
   member  = "serviceAccount:${data.google_project.prod_project.number}@cloudbuild.gserviceaccount.com"
 }
 
-resource "google_storage_bucket_iam_member" "cloudbuild_bucket_access" {
-  bucket = google_storage_bucket.tfstate.name
-  role   = "roles/storage.admin"
+resource "google_project_iam_member" "cloudbuild_owner_service" {
+  project = var.project
+  role   = "roles/owner"
   member = "serviceAccount:${data.google_project.service_project.number}@cloudbuild.gserviceaccount.com"
 }
 
