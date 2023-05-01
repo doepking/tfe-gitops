@@ -52,14 +52,14 @@ resource "google_storage_bucket_iam_member" "cloudbuild_bucket_access" {
 
 resource "google_storage_bucket" "tfstate" {
   project = var.project
-  name          = "tfe-gitops-state"
+  name          = var.bucket_name
   location      = "EU"
   force_destroy = true
 }
 
 resource "google_cloudbuild_trigger" "tfe_gitops_trigger" {
   project      = var.project
-  description  = "CI/CD trigger for tfe-gitops repository"
+  description  = "push-to-any-branch-cicd-trigger"
   github {
     owner = var.github_repo_owner
     name  = var.github_repo_name

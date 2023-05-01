@@ -6,6 +6,10 @@ variable "region" {
   description = "The region for resources"
 }
 
+variable "bucket_name" {
+  description = "The name of the GCS bucket"
+}
+
 variable "github_repo_name" {
   description = "The name of the GitHub repository"
 }
