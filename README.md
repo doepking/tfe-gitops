@@ -30,11 +30,11 @@ It is important to note that the service environment does not possess a backend.
 Customize the terraform.tfvars file in the service environment with the appropriate values for the variables project, region, location, bucket_name, github_repo_name, and github_repo_owner:
 
 ```hcl
-project         = "your-service-project-name"
-region          = "europe-west1"
-location        = "EU"
-bucket_name     = "your-gcs-bucket-name"
-github_repo_name = "your-github-repo"
+project           = "your-service-project-name"
+region            = "europe-west1"
+location          = "EU"
+bucket_name       = "your-gcs-bucket-name"
+github_repo_name  = "your-github-repo"
 github_repo_owner = "your-github-user-name"
 ```
 
