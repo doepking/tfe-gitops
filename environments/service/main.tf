@@ -20,14 +20,6 @@ resource "google_project_service" "required_apis" {
   disable_on_destroy = false
 }
 
-data "google_project" "dev_project" {
-  project_id = local.dev_project_id
-}
-
-data "google_project" "prod_project" {
-  project_id = local.prod_project_id
-}
-
 data "google_project" "service_project" {
   project_id = var.project
 }
@@ -35,13 +27,13 @@ data "google_project" "service_project" {
 resource "google_project_iam_member" "cloudbuild_owner_dev" {
   project = local.dev_project_id
   role    = "roles/owner"
-  member  = "serviceAccount:${data.google_project.dev_project.number}@cloudbuild.gserviceaccount.com"
+  member  = "serviceAccount:${data.google_project.service_project.number}@cloudbuild.gserviceaccount.com"
 }
 
 resource "google_project_iam_member" "cloudbuild_owner_prod" {
   project = local.prod_project_id
   role    = "roles/owner"
-  member  = "serviceAccount:${data.google_project.prod_project.number}@cloudbuild.gserviceaccount.com"
+  member  = "serviceAccount:${data.google_project.service_project.number}@cloudbuild.gserviceaccount.com"
 }
 
 resource "google_project_iam_member" "cloudbuild_owner_service" {
@@ -76,5 +68,4 @@ resource "google_cloudbuild_trigger" "tfe_gitops_trigger" {
   filename = "cloudbuild.yaml"
 
   include_build_logs = "INCLUDE_BUILD_LOGS_WITH_STATUS"
-
 }
