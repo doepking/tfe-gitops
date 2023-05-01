@@ -19,6 +19,43 @@ The project uses Cloud Build for continuous integration and deployment. This CI/
 
 ## Technical Instructions
 
+### Service Environment Overview
+The service environment is designed to configure the Google Cloud Storage (GCS) bucket that holds the Terraform state files for both the development and production environments. Additionally, this environment establishes the CI/CD pipeline using Google Cloud Build. The default Cloud Build account of the service project functions as the principal account for governing all infrastructure across projects with owner-level permissions.
+
+It is important to note that the service environment does not possess a backend. As a result, service-environment related Terraform commands must be executed locally within the service directory or be done manually.
+
+**Note:** Due to the current limitations of Terraform, the connection between the GitHub repository and the Cloud Build trigger must be established manually.
+
+#### Configuring the Service Environment
+Customize the terraform.tfvars file in the service environment with the appropriate values for the variables project, region, location, bucket_name, github_repo_name, and github_repo_owner:
+
+```hcl
+project         = "your-service-project-name"
+region          = "europe-west1"
+location        = "EU"
+bucket_name     = "your-gcs-bucket-name"
+github_repo_name = "your-github-repo"
+github_repo_owner = "your-github-user-name"
+```
+
+Run the following Terraform commands in the service environment:
+```bash
+cd ./environments/service
+terraform init
+terraform plan
+terraform apply
+```
+
+Establish the connection between the GitHub repository and the Cloud Build trigger manually via the Google Cloud Console:
+
+a. Navigate to the [Cloud Build Triggers](https://console.cloud.google.com/cloud-build/triggers) page.
+
+b. Select "Connect Repository".
+
+c. Follow the provided instructions to link your GitHub repository.
+
+Upon completing these steps, the service environment will be appropriately set up with a GCS bucket for storing Terraform state files and a CI/CD pipeline utilizing Google Cloud Build.
+
 ### Configuring your **dev** environment
 
 Before applying the Terraform configuration for the **dev** environment, you need to update the backend configuration in the `backend.tf` file to point to the correct GCS bucket and prefix. You should also update the `terraform.tfvars` file with the appropriate values for the `project` variable.
@@ -47,7 +84,7 @@ ssh_user        = "ssh_user"
 After updating these files, you can apply the Terraform configuration by running the following commands in your local development environment with the Google Cloud SDK & Terraform installed:
 
 ```bash
-cd ../environments/dev
+cd ./environments/dev
 terraform init
 terraform plan
 terraform apply
@@ -89,7 +126,7 @@ ssh_user        = "ssh_user"
 After updating these files, you can apply the Terraform configuration by running the following commands in your local development environment with the Google Cloud SDK & Terraform installed:
 
 ```bash
-cd ../environments/prod
+cd ./environments/prod
 terraform init
 terraform plan
 terraform apply
