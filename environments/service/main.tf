@@ -28,6 +28,10 @@ data "google_project" "prod_project" {
   project_id = local.prod_project_id
 }
 
+data "google_project" "service_project" {
+  project_id = var.project
+}
+
 resource "google_project_iam_member" "cloudbuild_owner_dev" {
   project = local.dev_project_id
   role    = "roles/owner"
@@ -43,7 +47,7 @@ resource "google_project_iam_member" "cloudbuild_owner_prod" {
 resource "google_storage_bucket_iam_member" "cloudbuild_bucket_access" {
   bucket = google_storage_bucket.tfstate.name
   role   = "roles/storage.admin"
-  member = "serviceAccount:${var.project.number}@cloudbuild.gserviceaccount.com"
+  member = "serviceAccount:${data.google_project.service_project.number}@cloudbuild.gserviceaccount.com"
 }
 
 resource "google_storage_bucket" "tfstate" {
@@ -70,6 +74,6 @@ resource "google_cloudbuild_trigger" "tfe_gitops_trigger" {
 
   filename = "cloudbuild.yaml"
 
-  # Workaround to send build logs to GitHub
-  log_url_override = ""
+  include_build_logs = "INCLUDE_BUILD_LOGS_WITH_STATUS"
+
 }
