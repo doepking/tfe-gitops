@@ -47,7 +47,7 @@ resource "google_project_iam_member" "cloudbuild_owner_service" {
 }
 
 resource "google_storage_bucket" "tfstate" {
-  project = var.project
+  project       = var.project
   name          = var.bucket_name
   location      = var.location
   force_destroy = true
@@ -55,7 +55,7 @@ resource "google_storage_bucket" "tfstate" {
 
 resource "google_cloudbuild_trigger" "tfe_gitops_trigger" {
   project      = var.project
-  name  = "push-to-any-branch-cicd-trigger"
+  name         = "push-to-any-branch-cicd-trigger"
   description  = "Trigger to run CI/CD pipeline on any branch push"
   github {
     owner = var.github_repo_owner
